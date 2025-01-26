@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User and Job Post Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .highlight {
+        animation: scale-up 0.5s ease-in-out;
+      }
+
+      @keyframes scale-up {
+        0% {
+          transform: scale(1);
+          color: #fbbf24;
+        }
+        50% {
+          transform: scale(1.2);
+          color: #facc15;
+        }
+        100% {
+          transform: scale(1);
+          color: #ffffff;
+        }
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .glass-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-screen flex items-center justify-center text-white overflow-hidden px-24"
+  >
+    <div class="container mx-auto text-center">
+      <h1 class="text-4xl font-bold mb-8">📊 Qualifyde Statistics</h1>
+      <div class="grid gap-8 md:grid-cols-3">
+        <!-- Job Seeker Data -->
+        <div class="p-6 glass-card">
+          <h2 class="text-2xl font-semibold mb-4">Job Seekers</h2>
+          <p>
+            Total:
+            <span id="job-seekers-total" class="text-5xl font-bold">0</span>
+          </p>
+          <p>
+            Active:
+            <span id="job-seekers-active" class="text-3xl font-bold">0</span>
+          </p>
+          <p>
+            Newly Added:
+            <span id="job-seekers-new" class="text-3xl font-bold">0</span>
+          </p>
+        </div>
+
+        <!-- Employer Data -->
+        <div class="p-6 glass-card">
+          <h2 class="text-2xl font-semibold mb-4">Employers</h2>
+          <p>
+            Total:
+            <span id="employers-total" class="text-5xl font-bold">0</span>
+          </p>
+          <p>
+            Active:
+            <span id="employers-active" class="text-3xl font-bold">0</span>
+          </p>
+          <p>
+            Newly Added:
+            <span id="employers-new" class="text-3xl font-bold">0</span>
+          </p>
+        </div>
+
+        <!-- Job Post Data -->
+        <div class="p-6 glass-card">
+          <h2 class="text-2xl font-semibold mb-4">Job Posts</h2>
+          <p>
+            Total:
+            <span id="job-posts-total" class="text-5xl font-bold">0</span>
+          </p>
+          <p>
+            Active:
+            <span id="job-posts-active" class="text-3xl font-bold">0</span>
+          </p>
+          <p>
+            Newly Added:
+            <span id="job-posts-new" class="text-3xl font-bold">0</span>
+          </p>
+          <p>
+            Pending:
+            <span id="job-posts-pending" class="text-3xl font-bold">0</span>
+          </p>
+          <p>
+            Expired:
+            <span id="job-posts-expired" class="text-3xl font-bold">0</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let previousData = {
+        jobSeekerCountDTO: {
+          totalCount: 0,
+          activeCount: 0,
+          newlyAddedCount: 0,
+        },
+        employerCountDTO: {
+          totalCount: 0,
+          activeCount: 0,
+          newlyAddedCount: 0,
+          totalJobPostCount: 0,
+          newlyAddedJobPostCount: 0,
+          activeJobPostCount: 0,
+          pendingJobPostCount: 0,
+          expiredJobPostCount: 0,
+        },
+      };
+
+      async function fetchData() {
+        const apiUrl =
+          "https://test.api.kamai.ai/admin/employer_jobseeker_counts?frequency=daily";
+
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          updateSection(
+            "job-seekers",
+            data.jobSeekerCountDTO,
+            previousData.jobSeekerCountDTO
+          );
+          updateSection(
+            "employers",
+            data.employerCountDTO,
+            previousData.employerCountDTO
+          );
+          updateJobPostData(
+            data.employerCountDTO,
+            previousData.employerCountDTO
+          );
+
+          previousData = JSON.parse(JSON.stringify(data));
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      function updateSection(section, newData, oldData) {
+        for (const key in newData) {
+          const id = `${section}-${key.replace("Count", "").toLowerCase()}`;
+          const element = document.getElementById(id);
+          updateCounter(element, newData[key], oldData[key]);
+        }
+      }
+
+      function updateJobPostData(newData, oldData) {
+        [
+          "totalJobPostCount",
+          "newlyAddedJobPostCount",
+          "activeJobPostCount",
+          "pendingJobPostCount",
+          "expiredJobPostCount",
+        ].forEach((key) => {
+          const id = `job-posts-${key.replace("Count", "").toLowerCase()}`;
+          const element = document.getElementById(id);
+          updateCounter(element, newData[key], oldData[key]);
+        });
+      }
+
+      function updateCounter(element, newValue, oldValue) {
+        if (!element) return;
+        if (newValue > oldValue) {
+          element.textContent = newValue;
+          element.classList.add("highlight");
+          setTimeout(() => element.classList.remove("highlight"), 500);
+        } else {
+          element.textContent = newValue;
+        }
+      }
+
+      fetchData();
+      setInterval(fetchData, 5000);
+    </script>
+  </body>
+</html>
