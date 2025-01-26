@@ -83,25 +83,38 @@
         <!-- Job Post Data -->
         <div class="p-6 glass-card">
           <h2 class="text-2xl font-semibold mb-4">Job Posts</h2>
+
           <p>
             Total:
-            <span id="job-posts-total" class="text-5xl font-bold">0</span>
+            <span id="job-posts-totalJobPostCount" class="text-5xl font-bold"
+              >0</span
+            >
           </p>
           <p>
             Active:
-            <span id="job-posts-active" class="text-3xl font-bold">0</span>
+            <span id="job-posts-activeJobPostCount" class="text-3xl font-bold"
+              >0</span
+            >
           </p>
           <p>
             Newly Added:
-            <span id="job-posts-new" class="text-3xl font-bold">0</span>
+            <span
+              id="job-posts-newlyAddedJobPostCount"
+              class="text-3xl font-bold"
+              >0</span
+            >
           </p>
           <p>
             Pending:
-            <span id="job-posts-pending" class="text-3xl font-bold">0</span>
+            <span id="job-posts-pendingJobPostCount" class="text-3xl font-bold"
+              >0</span
+            >
           </p>
           <p>
             Expired:
-            <span id="job-posts-expired" class="text-3xl font-bold">0</span>
+            <span id="job-posts-expiredJobPostCount" class="text-3xl font-bold"
+              >0</span
+            >
           </p>
         </div>
       </div>
@@ -171,7 +184,7 @@
           "pendingJobPostCount",
           "expiredJobPostCount",
         ].forEach((key) => {
-          const id = `job-posts-${key.replace("Count", "").toLowerCase()}`;
+          const id = `job-posts-${key}`;
           const element = document.getElementById(id);
           updateCounter(element, newData[key], oldData[key]);
         });
