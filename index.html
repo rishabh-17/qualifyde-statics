@@ -59,7 +59,9 @@
           </p>
           <p>
             Added Today:
-            <span id="job-seekers-new" class="text-3xl font-bold">0</span>
+            <span id="job-seekers-newlyadded" class="text-3xl font-bold"
+              >0</span
+            >
           </p>
         </div>
 
@@ -76,7 +78,7 @@
           </p>
           <p>
             Added Today:
-            <span id="employers-new" class="text-3xl font-bold">0</span>
+            <span id="employers-newlyadded" class="text-3xl font-bold">0</span>
           </p>
         </div>
 
@@ -141,7 +143,7 @@
 
       async function fetchData() {
         const apiUrl =
-          "https://test.api.kamai.ai/admin/employer_jobseeker_counts?frequency=daily";
+          "https://api.jobs.qualifyde.com/admin/employer_jobseeker_counts?frequency=daily";
 
         try {
           const response = await fetch(apiUrl);
