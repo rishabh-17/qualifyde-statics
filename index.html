@@ -118,6 +118,18 @@
               >0</span
             >
           </p>
+          <p>
+            Rejected:
+            <span id="job-posts-rejectedJobPostCount" class="text-3xl font-bold"
+              >0</span
+            >
+          </p>
+          <p>
+            Closed:
+            <span id="job-posts-closedJobPostCount" class="text-3xl font-bold"
+              >0</span
+            >
+          </p>
         </div>
       </div>
     </div>
@@ -138,6 +150,8 @@
           activeJobPostCount: 0,
           pendingJobPostCount: 0,
           expiredJobPostCount: 0,
+          rejectedJobPostCount: 0,
+          closedJobPostCount: 0,
         },
       };
 
@@ -185,6 +199,8 @@
           "activeJobPostCount",
           "pendingJobPostCount",
           "expiredJobPostCount",
+          "rejectedJobPostCount",
+          "closedJobPostCount",
         ].forEach((key) => {
           const id = `job-posts-${key}`;
           const element = document.getElementById(id);
@@ -204,7 +220,7 @@
       }
 
       fetchData();
-      setInterval(fetchData, 5000);
+      setInterval(fetchData, 60000);
     </script>
   </body>
 </html>
