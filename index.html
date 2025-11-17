@@ -38,63 +38,89 @@
         transform: scale(1.05);
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
       }
+      @media (max-width: 640px) {
+        .glass-card:hover {
+          transform: none;
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+      }
     </style>
   </head>
   <body
-    class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-screen flex items-center justify-center text-white overflow-hidden px-24"
+    class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-screen flex items-center justify-center text-white overflow-x-hidden px-4 sm:px-8 md:px-24 py-8"
   >
-    <div class="container mx-auto text-center">
-      <h1 class="text-4xl font-bold mb-8">📊 Qualifyde Statistics</h1>
-      <div class="grid gap-8 md:grid-cols-3">
+    <div class="container mx-auto max-w-7xl text-center">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-8">
+        📊 Qualifyde Statistics
+      </h1>
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         <!-- Job Seeker Data -->
-        <div class="p-6 glass-card">
+        <div class="p-4 sm:p-6 glass-card">
           <h2 class="text-2xl font-semibold mb-4">Job Seekers</h2>
           <p>
             Total:
-            <span id="job-seekers-total" class="text-5xl font-bold">0</span>
+            <span id="job-seekers-total" class="text-4xl sm:text-5xl font-bold"
+              >0</span
+            >
           </p>
           <p>
             Active:
-            <span id="job-seekers-active" class="text-3xl font-bold">0</span>
+            <span id="job-seekers-active" class="text-2xl sm:text-3xl font-bold"
+              >0</span
+            >
           </p>
           <p>
             Added Today:
-            <span id="job-seekers-newlyadded" class="text-3xl font-bold"
+            <span
+              id="job-seekers-newlyadded"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
         </div>
 
         <!-- Employer Data -->
-        <div class="p-6 glass-card">
+        <div class="p-4 sm:p-6 glass-card">
           <h2 class="text-2xl font-semibold mb-4">Employers</h2>
           <p>
             Total:
-            <span id="employers-total" class="text-5xl font-bold">0</span>
-          </p>
-          <p>
-            Active:
-            <span id="employers-active" class="text-3xl font-bold">0</span>
-          </p>
-          <p>
-            Added Today:
-            <span id="employers-newlyadded" class="text-3xl font-bold">0</span>
-          </p>
-        </div>
-
-        <!-- Job Post Data -->
-        <div class="p-6 glass-card">
-          <h2 class="text-2xl font-semibold mb-4">Job Posts</h2>
-
-          <p>
-            Total:
-            <span id="job-posts-totalJobPostCount" class="text-5xl font-bold"
+            <span id="employers-total" class="text-4xl sm:text-5xl font-bold"
               >0</span
             >
           </p>
           <p>
             Active:
-            <span id="job-posts-activeJobPostCount" class="text-3xl font-bold"
+            <span id="employers-active" class="text-2xl sm:text-3xl font-bold"
+              >0</span
+            >
+          </p>
+          <p>
+            Added Today:
+            <span
+              id="employers-newlyadded"
+              class="text-2xl sm:text-3xl font-bold"
+              >0</span
+            >
+          </p>
+        </div>
+
+        <!-- Job Post Data -->
+        <div class="p-4 sm:p-6 glass-card">
+          <h2 class="text-2xl font-semibold mb-4">Job Posts</h2>
+
+          <p>
+            Total:
+            <span
+              id="job-posts-totalJobPostCount"
+              class="text-4xl sm:text-5xl font-bold"
+              >0</span
+            >
+          </p>
+          <p>
+            Active:
+            <span
+              id="job-posts-activeJobPostCount"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
@@ -102,31 +128,39 @@
             Added Today:
             <span
               id="job-posts-newlyAddedJobPostCount"
-              class="text-3xl font-bold"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
           <p>
             Pending:
-            <span id="job-posts-pendingJobPostCount" class="text-3xl font-bold"
+            <span
+              id="job-posts-pendingJobPostCount"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
           <p>
             Expired:
-            <span id="job-posts-expiredJobPostCount" class="text-3xl font-bold"
+            <span
+              id="job-posts-expiredJobPostCount"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
           <p>
             Rejected:
-            <span id="job-posts-rejectedJobPostCount" class="text-3xl font-bold"
+            <span
+              id="job-posts-rejectedJobPostCount"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
           <p>
             Closed:
-            <span id="job-posts-closedJobPostCount" class="text-3xl font-bold"
+            <span
+              id="job-posts-closedJobPostCount"
+              class="text-2xl sm:text-3xl font-bold"
               >0</span
             >
           </p>
