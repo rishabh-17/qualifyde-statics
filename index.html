@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User and Job Post Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      .highlight {
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JobDost Statistics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .highlight {
         animation: scale-up 0.5s ease-in-out;
       }
 
@@ -25,7 +26,7 @@
         }
       }
 
-      .glass-card {
+ .glass-card {
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -34,227 +35,476 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
 
-      .glass-card:hover {
+      /* .glass-card:hover {
         transform: scale(1.05);
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
-      }
+      } */
       @media (max-width: 640px) {
         .glass-card:hover {
           transform: none;
           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-      }
-    </style>
-  </head>
-  <body
-    class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-screen flex items-center justify-center text-white overflow-x-hidden px-4 sm:px-8 md:px-24 py-8"
-  >
-    <div class="container mx-auto max-w-7xl text-center">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-8">
-        📊 Qualifyde Statistics
-      </h1>
-      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-        <!-- Job Seeker Data -->
-        <div class="p-4 sm:p-6 glass-card">
-          <h2 class="text-2xl font-semibold mb-4">Job Seekers</h2>
-          <p>
-            Total:
-            <span id="job-seekers-total" class="text-4xl sm:text-5xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Active:
-            <span id="job-seekers-active" class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Added Today:
-            <span
-              id="job-seekers-newlyadded"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-        </div>
+  }
 
-        <!-- Employer Data -->
-        <div class="p-4 sm:p-6 glass-card">
-          <h2 class="text-2xl font-semibold mb-4">Employers</h2>
-          <p>
-            Total:
-            <span id="employers-total" class="text-4xl sm:text-5xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Active:
-            <span id="employers-active" class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Added Today:
-            <span
-              id="employers-newlyadded"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-        </div>
+  .dropdown {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 50;
+  }
 
-        <!-- Job Post Data -->
-        <div class="p-4 sm:p-6 glass-card">
-          <h2 class="text-2xl font-semibold mb-4">Job Posts</h2>
+  .dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+  }
 
-          <p>
-            Total:
-            <span
-              id="job-posts-totalJobPostCount"
-              class="text-4xl sm:text-5xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Active:
-            <span
-              id="job-posts-activeJobPostCount"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Added Today:
-            <span
-              id="job-posts-newlyAddedJobPostCount"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Pending:
-            <span
-              id="job-posts-pendingJobPostCount"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Expired:
-            <span
-              id="job-posts-expiredJobPostCount"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Rejected:
-            <span
-              id="job-posts-rejectedJobPostCount"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-          <p>
-            Closed:
-            <span
-              id="job-posts-closedJobPostCount"
-              class="text-2xl sm:text-3xl font-bold"
-              >0</span
-            >
-          </p>
-        </div>
-      </div>
+  .dropdown-item:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+    .custom-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .custom-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.25) transparent;
+  }
+</style>
+</head>
+
+<body class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-screen text-white px-6 py-10">
+
+<div class="container mx-auto max-w-7xl text-center">
+
+<h1 class="text-4xl font-bold text-center mb-10">
+📊 JobDost Statistics
+</h1>
+
+<!-- ================= STATS SECTION ================= -->
+<div class=" p-8 mb-14 relative">
+
+  <!-- Stats Filter -->
+  <div class="absolute top-6 right-8">
+    <select id="statsFrequency"
+      class="bg-white/20 border border-white/30 px-4 py-2 rounded-lg text-white focus:outline-none">
+      <option value="daily" selected>Today</option>
+      <option value="weekly">Last Week</option>
+      <option value="monthly">Last Month</option>
+    </select>
+  </div>
+
+  <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 mt-14">
+
+    <!-- Job Seekers -->
+    <div class="glass-card p-6 text-center">
+      <h2 class="text-xl font-semibold mb-4">Job Seekers</h2>
+      <p>Total: <span id="job-seekers-total" class="text-3xl font-bold">0</span></p>
+      <p>Active: <span id="job-seekers-active" class="text-xl font-bold">0</span></p>
+      <p>Registered: <span id="job-seekers-registered" class="text-xl font-bold">0</span></p>
+      <p>Incomplete: <span id="job-seekers-unregistered" class="text-xl font-bold">0</span></p>
+        <p>
+  <span class="dynamic-label"></span>:
+  <span id="job-seekers-newlyadded" class="text-3xl font-bold">0</span>
+</p>
     </div>
 
-    <script>
-      let previousData = {
-        jobSeekerCountDTO: {
-          totalCount: 0,
-          activeCount: 0,
-          newlyAddedCount: 0,
-        },
-        employerCountDTO: {
-          totalCount: 0,
-          activeCount: 0,
-          newlyAddedCount: 0,
-          totalJobPostCount: 0,
-          newlyAddedJobPostCount: 0,
-          activeJobPostCount: 0,
-          pendingJobPostCount: 0,
-          expiredJobPostCount: 0,
-          rejectedJobPostCount: 0,
-          closedJobPostCount: 0,
-        },
-      };
+    <!-- Employers -->
+    <div class="glass-card p-6 text-center">
+      <h2 class="text-xl font-semibold mb-4">Employers</h2>
+      <p>Total: <span id="employers-total" class="text-3xl font-bold">0</span></p>
+      <p>Incomplete: <span id="employers-incomplete" class="text-xl font-bold">0</span></p>
+      <p> Individual: <span id="employers-individual" class="text-xl font-bold">0</span></p>
+      <p> Corporate: <span id="employers-corporate" class="text-xl font-bold">0</span></p>
+      <p>KYC Completed: <span id="employers-active" class="text-xl font-bold">0</span></p>
+      <p>KYC Pending: <span id="employers-pending" class="text-xl font-bold">0</span></p>      
+      <p> Active Subscriptions: <span id="employers-subscribed" class="text-xl font-bold">0</span> </p>
+        <p> <span class="dynamic-label"></span>: <span id="employers-newlyadded" class="text-3xl font-bold">0</span></p>
+    </div>
 
-      async function fetchData() {
-        const apiUrl =
-          "https://api.jobs.qualifyde.com/admin/employer_jobseeker_counts?frequency=daily";
+    <!-- Job Posts -->
+    <div class="glass-card p-6 text-center">
+      <h2 class="text-xl font-semibold mb-4">Job Posts</h2>
+      <p>Total: <span id="job-posts-totalJobPostCount" class="text-3xl font-bold">0</span></p>
+      <p>Active: <span id="job-posts-activeJobPostCount">0</span></p>
+      <p>Pending: <span id="job-posts-pendingJobPostCount">0</span></p>
+      <p>Expired: <span id="job-posts-expiredJobPostCount">0</span></p>
+      <p>Rejected: <span id="job-posts-rejectedJobPostCount">0</span></p>
+      <p>Closed: <span id="job-posts-closedJobPostCount">0</span></p>
+      <p> <span class="dynamic-label"></span>: <span id="job-posts-newlyAddedJobPostCount" class="text-3xl font-bold">0</span></p>
 
-        try {
-          const response = await fetch(apiUrl);
-          const data = await response.json();
+    </div>
 
-          updateSection(
-            "job-seekers",
-            data.jobSeekerCountDTO,
-            previousData.jobSeekerCountDTO
-          );
-          updateSection(
-            "employers",
-            data.employerCountDTO,
-            previousData.employerCountDTO
-          );
-          updateJobPostData(
-            data.employerCountDTO,
-            previousData.employerCountDTO
-          );
+  </div>
+</div>
 
-          previousData = JSON.parse(JSON.stringify(data));
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
+<!-- ================= ROLES SECTION ================= -->
+<div class="glass-card p-6 md:p-8 relative">
+
+  <!-- Top Controls -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+    <!-- Search -->
+    <div class="relative w-full md:w-1/3">
+      <input
+        id="roleSearch"
+        type="text"
+        placeholder="Search role..."
+        class="w-full bg-white/20 border border-white/30 px-4 py-2 pr-10 rounded-lg text-white focus:outline-none"
+      />
+
+      <!-- Clear Icon -->
+      <button
+        id="clearSearch"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white hidden"
+      >
+        ✕
+      </button>
+
+      <!-- Dropdown -->
+      <div
+        id="searchDropdown"
+        class="absolute w-full mt-2
+        bg-gradient-to-r from-purple-900 via-purple-700 via-20% to-purple-900
+        rounded-xl shadow-2xl z-50 hidden overflow-y-auto max-h-[300px]
+        backdrop-blur-sm custom-scroll"
+      ></div>
+    </div>
+
+    <!-- Role Frequency -->
+         <div class="w-full md:w-auto">
+      <select id="roleFrequency"
+        class="w-full md:w-auto bg-white/20 border border-white/30 px-4 py-2 rounded-lg text-white focus:outline-none">
+        <option value="All" selected>All</option>
+        <option value="daily">Today</option>
+        <option value="weekly">Last Week</option>
+        <option value="monthly">Last Month</option>
+      </select>
+    </div>
+  </div>
+
+<div class="flex flex-col md:flex-row gap-4">
+
+  <!-- Jobseekers -->
+  <div class="w-full md:w-1/2 max-h-[420px] overflow-y-auto custom-scroll">
+    <div class="overflow-x-auto">
+      <table class="min-w-[400px] w-full border border-white/20">
+        <thead>
+          <tr class="text-white/70 border-b border-white/20">
+            <th colspan="2" class="px-4 py-3 text-start md:text-center text-lg text-white font-semibold">
+              Jobseekers
+            </th>
+          </tr>
+          <tr class="text-white/70 border-b border-white/20">
+            <th class="px-4 py-2 text-start">Role</th>
+            <th class="px-4 py-2 text-center">Total</th>
+          </tr>
+        </thead>
+        <tbody id="roleTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Job Posts -->
+  <div class="w-full md:w-1/2 max-h-[420px] overflow-y-auto custom-scroll">
+    <div class="overflow-x-auto">
+      <table class="min-w-[500px] w-full border border-white/20">
+        <thead>
+          <tr class="text-white/70 border-b border-white/20">
+            <th colspan="3" class="px-4 py-3 text-start md:text-center text-lg text-white font-semibold">
+              Job Posts
+            </th>
+          </tr>
+          <tr class="text-white/70 border-b border-white/20">
+            <th class="px-4 py-2 text-start">Role</th>
+            <th class="px-4 py-2 text-center">Total</th>
+            <th class="px-4 py-2 text-center">Active</th>
+          </tr>
+        </thead>
+        <tbody id="jobPostTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+const statsFrequency = document.getElementById("statsFrequency");
+const roleFrequency = document.getElementById("roleFrequency");
+const roleSearch = document.getElementById("roleSearch");
+const dropdown = document.getElementById("searchDropdown");
+const tbody = document.getElementById("roleTableBody");
+const tbody2 = document.getElementById("jobPostTableBody");
+const clearBtn = document.getElementById("clearSearch");
+
+let debounce;
+let selectedRoleId = "";
+
+// ===================== LOAD STATS =====================
+async function loadStats() {
+  try {
+    const frequency = statsFrequency.value;
+    const res = await fetch(`https://api.jobs.qualifyde.com/admin/employer_jobseeker_counts?frequency=${frequency}`);
+    const data = await res.json();
+
+    set("job-seekers-total", data.jobSeekerCountDTO.totalCount);
+    set("job-seekers-active", data.jobSeekerCountDTO.activeCount);
+    set("job-seekers-newlyadded", data.jobSeekerCountDTO.newlyAddedCount);
+    set("job-seekers-registered", data.jobSeekerCountDTO.registeredCount);
+    set("job-seekers-unregistered", data.jobSeekerCountDTO.incompleteCount);
+ 
+    set("employers-total", data.employerCountDTO.totalCount);
+    set("employers-active", data.employerCountDTO.activeCount);
+    set("employers-newlyadded", data.employerCountDTO.newlyAddedCount);
+    set("employers-pending", data.employerCountDTO.kycPendingCount);
+    set("employers-incomplete", data.employerCountDTO.incompleteCount);
+    set("employers-individual", data.employerCountDTO.individualCount);
+    set("employers-corporate", data.employerCountDTO.corporateCount);
+    set("employers-subscribed", data.employerCountDTO.activeSubscriptionCount);
+
+    set("job-posts-totalJobPostCount", data.employerCountDTO.totalJobPostCount);
+    set("job-posts-activeJobPostCount", data.employerCountDTO.activeJobPostCount);
+    set("job-posts-newlyAddedJobPostCount", data.employerCountDTO.newlyAddedJobPostCount);
+    set("job-posts-pendingJobPostCount", data.employerCountDTO.pendingJobPostCount);
+    set("job-posts-expiredJobPostCount", data.employerCountDTO.expiredJobPostCount);
+    set("job-posts-rejectedJobPostCount", data.employerCountDTO.rejectedJobPostCount);
+    set("job-posts-closedJobPostCount", data.employerCountDTO.closedJobPostCount);
+
+  } catch (e) {
+    console.error("Stats error:", e);
+  }
+}
+
+function set(id, value) {
+  document.getElementById(id).textContent = value ?? 0;
+}
+
+// ===================== LOAD ROLES =====================
+async function loadRoles() {
+  try {
+    const frequency = roleFrequency.value;
+    const res = await fetch(
+      `https://api.jobs.qualifyde.com/jobseeker/public/countbyjobtitleId?jobTitleIds=${selectedRoleId}&frequency=${frequency}`
+      
+    );
+    const data = await res.json();
+    renderRoles(data);
+  } catch (e) {
+    console.error("Role load error:", e);
+  }
+}
+
+
+async function loadJobPosts() {
+  try {
+    const frequency = roleFrequency.value;
+    const res = await fetch(
+      `https://api.jobs.qualifyde.com/employer/public/jobpostcountbyjobtitleId?jobTitleIds=${selectedRoleId}&frequency=${frequency}`
+     
+    );
+    const data = await res.json();
+    renderJobPosts(data);
+  } catch (e) {
+    console.error("Role load error:", e);
+  }
+}
+
+
+// ===================== SEARCH =====================
+
+clearBtn.addEventListener("click", () => {
+  roleSearch.value = "";
+  selectedRoleId = "";
+
+  dropdown.classList.add("hidden");
+  clearBtn.classList.add("hidden");
+
+  loadRoles();
+  loadJobPosts();
+});
+roleSearch.addEventListener("keyup", () => {
+  clearTimeout(debounce);
+
+  const value = roleSearch.value.trim();
+
+  if (value.length > 0) {
+    clearBtn.classList.remove("hidden");
+  } else {
+    clearBtn.classList.add("hidden");
+  }
+
+  if (value.length < 2) {
+    dropdown.classList.add("hidden");
+    return;
+  }
+
+  debounce = setTimeout(async () => {
+    try {
+      const res = await fetch(
+         `https://api.jobs.qualifyde.com/admin/public/jobtitles?jobTitleName=${value}`
+      );
+      const data = await res.json();
+
+      if (!data || data.length === 0) {
+       dropdown.innerHTML = `
+  <div class="px-4 py-3 text-gray-400 text-sm">
+    No results found
+  </div>`;
+        dropdown.classList.remove("hidden");
+        return;
       }
 
-      function updateSection(section, newData, oldData) {
-        for (const key in newData) {
-          const id = `${section}-${key.replace("Count", "").toLowerCase()}`;
-          const element = document.getElementById(id);
-          updateCounter(element, newData[key], oldData[key]);
-        }
-      }
+     dropdown.innerHTML = data.map(role => `
+  <div
+    class="px-4 py-3 cursor-pointer text-gray-200 hover:bg-white/20 hover:text-white transition"
+    onclick="selectRole('${role.id}', '${role.name}')"
+  >
+    ${role.name}
+  </div>
+`).join("");
 
-      function updateJobPostData(newData, oldData) {
-        [
-          "totalJobPostCount",
-          "newlyAddedJobPostCount",
-          "activeJobPostCount",
-          "pendingJobPostCount",
-          "expiredJobPostCount",
-          "rejectedJobPostCount",
-          "closedJobPostCount",
-        ].forEach((key) => {
-          const id = `job-posts-${key}`;
-          const element = document.getElementById(id);
-          updateCounter(element, newData[key], oldData[key]);
-        });
-      }
+      dropdown.classList.remove("hidden");
 
-      function updateCounter(element, newValue, oldValue) {
-        if (!element) return;
-        if (newValue > oldValue) {
-          element.textContent = newValue;
-          element.classList.add("highlight");
-          setTimeout(() => element.classList.remove("highlight"), 500);
-        } else {
-          element.textContent = newValue;
-        }
-      }
+    } catch (e) {
+      console.error("Search error:", e);
+    }
+  }, 300);
+});
 
-      fetchData();
-      setInterval(fetchData, 60000);
-    </script>
-  </body>
+
+function selectRole(id, name) {
+  selectedRoleId = id;
+  roleSearch.value = name;
+  dropdown.classList.add("hidden");
+  loadRoles();
+  loadJobPosts();
+}
+
+// ===================== RENDER =====================
+function renderRoles(data) {
+  if (!Array.isArray(data)) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="py-6 text-center text-white/60">
+          No data available
+        </td>
+      </tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(r => `
+    <tr class="border-b border-white/10 hover:bg-white/10 transition text-start">
+      <td class="py-4 px-4">${r.name || r.jobTitle || "-"}</td>
+      <td class="py-4 px-4 text-center">${r.count ?? 0}</td>
+     
+    </tr>
+  `).join("");
+
+  if (data.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="py-6 text-center text-white/60">
+          No Jobseekers found
+        </td>
+      </tr>`;
+  }
+}
+
+function renderJobPosts(data) {
+  
+  if (!Array.isArray(data)) {
+    tbody2.innerHTML = `
+      <tr>
+        <td colspan="4" class="py-6 text-center text-white/60">
+          No data available
+        </td>
+      </tr>`;
+    return;
+  }
+
+  tbody2.innerHTML = data.map(r => `
+    <tr class="border-b border-white/10 hover:bg-white/10 transition text-start">
+      <td class="py-4 px-4">${r.name || r.jobTitle || "-"}</td>
+    
+      <td class="py-4 px-4 text-center">${r.totalCount ?? 0}</td>
+      <td class="py-4 px-4 text-center">${r.count ?? 0}</td>
+    </tr>
+  `).join("");
+
+  if (data.length === 0) {
+    tbody2.innerHTML = `
+      <tr>
+        <td colspan="4" class="py-6 text-center text-white/60">
+          No JobPosts found
+        </td>
+      </tr>`;
+  }
+}
+
+// ===================== EVENTS =====================
+statsFrequency.addEventListener("change", loadStats);
+roleFrequency.addEventListener("change", loadRoles);
+roleFrequency.addEventListener("change", loadJobPosts);
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const frequencySelect = document.getElementById("statsFrequency");
+
+    function updateLabel(value) {
+      let label = "";
+
+      if (value === "daily") label = "Added Today";
+      if (value === "weekly") label = "Added Last Week";
+      if (value === "monthly") label = "Added Last Month";
+
+      document.querySelectorAll(".dynamic-label").forEach(el => {
+        el.textContent = label;
+      });
+    }
+
+    updateLabel(frequencySelect.value);
+    frequencySelect.addEventListener("change", function () {
+      updateLabel(this.value);
+    });
+
+  });
+
+// ===================== INIT =====================
+
+function fetchData() {
+  loadStats();
+loadRoles();
+loadJobPosts();
+};
+
+fetchData();
+setInterval(fetchData, 60000);
+
+</script>
+
+</body>
 </html>
+
+
