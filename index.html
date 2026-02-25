@@ -157,7 +157,7 @@
 </div>
 
 <!-- ================= ROLES SECTION ================= -->
-<div class="glass-card p-6 md:p-8 relative">
+<div class="glass-card p-5 sm:p-6 md:p-8 relative">
 
   <!-- Top Controls -->
   <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
@@ -168,7 +168,7 @@
         id="roleSearch"
         type="text"
         placeholder="Search role..."
-        class="w-full bg-white/20 border border-white/30 px-4 py-2 pr-10 rounded-lg text-white focus:outline-none"
+        class="w-full bg-white/20 border border-white/30 px-4 py-2 pr-10 rounded-lg text-white focus:outline-none text-sm sm:text-base"
       />
 
       <!-- Clear Icon -->
@@ -184,13 +184,13 @@
         id="searchDropdown"
         class="absolute w-full mt-2
         bg-gradient-to-r from-purple-900 via-purple-700 via-20% to-purple-900
-        rounded-xl shadow-2xl z-50 hidden overflow-y-auto max-h-[300px]
+        rounded-xl shadow-2xl z-50 hidden overflow-y-auto max-h-[250px]
         backdrop-blur-sm custom-scroll"
       ></div>
     </div>
 
     <!-- Role Frequency -->
-         <div class="w-full md:w-auto">
+      <div class="w-full md:w-auto">
       <select id="roleFrequency"
         class="w-full md:w-auto bg-white/20 border border-white/30 px-4 py-2 rounded-lg text-white focus:outline-none">
         <option value="All" selected>All</option>
@@ -201,50 +201,56 @@
     </div>
   </div>
 
-<div class="flex flex-col md:flex-row gap-4">
+  <div class="flex flex-col md:flex-row gap-6">
 
-  <!-- Jobseekers -->
-  <div class="w-full md:w-1/2 max-h-[420px] overflow-y-auto custom-scroll">
-    <div class="overflow-x-auto">
-      <table class="min-w-[400px] w-full border border-white/20">
+    <!-- ================= Jobseekers ================= -->
+    <div class="w-full md:w-1/2 max-h-[420px] overflow-y-auto custom-scroll">
+
+      <table class="w-full table-fixed border border-white/20 text-sm sm:text-base">
         <thead>
           <tr class="text-white/70 border-b border-white/20">
-            <th colspan="2" class="px-4 py-3 text-start md:text-center text-lg text-white font-semibold">
+            <th colspan="2"
+              class="px-4 py-3 text-center text-lg text-white font-semibold">
               Jobseekers
             </th>
           </tr>
           <tr class="text-white/70 border-b border-white/20">
-            <th class="px-4 py-2 text-start">Role</th>
-            <th class="px-4 py-2 text-center">Total</th>
+            <th class="px-3 sm:px-4 py-2 text-start w-2/3">Role</th>
+            <th class="px-3 sm:px-4 py-2 text-center w-1/3">Total</th>
           </tr>
         </thead>
-        <tbody id="roleTableBody"></tbody>
-      </table>
-    </div>
-  </div>
 
-  <!-- Job Posts -->
-  <div class="w-full md:w-1/2 max-h-[420px] overflow-y-auto custom-scroll">
-    <div class="overflow-x-auto">
-      <table class="min-w-[500px] w-full border border-white/20">
+        <tbody id="roleTableBody">
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- ================= Job Posts ================= -->
+    <div class="w-full md:w-1/2 max-h-[420px] overflow-y-auto custom-scroll">
+
+      <table class="w-full table-fixed border border-white/20 text-sm sm:text-base">
         <thead>
           <tr class="text-white/70 border-b border-white/20">
-            <th colspan="3" class="px-4 py-3 text-start md:text-center text-lg text-white font-semibold">
+            <th colspan="3"
+              class="px-4 py-3 text-center text-lg text-white font-semibold">
               Job Posts
             </th>
           </tr>
-          <tr class="text-white/70 border-b border-white/20">
-            <th class="px-4 py-2 text-start">Role</th>
-            <th class="px-4 py-2 text-center">Total</th>
-            <th class="px-4 py-2 text-center">Active</th>
+          <tr  class="text-white/70 border-b border-white/20">
+            <th class="px-3 sm:px-4 py-2 text-start ">Role</th>
+            <th class="px-3 sm:px-4 py-2 text-center">Total</th>
+            <th class="px-3 sm:px-4 py-2 text-center">Active</th>
           </tr>
         </thead>
-        <tbody id="jobPostTableBody"></tbody>
-      </table>
-    </div>
-  </div>
 
-</div>
+        <tbody id="jobPostTableBody">
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
 
 </div>
 
@@ -404,41 +410,35 @@ function selectRole(id, name) {
 
 // ===================== RENDER =====================
 function renderRoles(data) {
-  if (!Array.isArray(data)) {
-    tbody.innerHTML = `
+
+  if (!Array.isArray(data) || data.length === 0) {
+    roleTableBody.innerHTML = `
       <tr>
-        <td colspan="4" class="py-6 text-center text-white/60">
-          No data available
+        <td colspan="2" class="py-6 text-center text-white/60">
+          No Jobseekers found
         </td>
       </tr>`;
     return;
   }
 
-  tbody.innerHTML = data.map(r => `
+  roleTableBody.innerHTML = data.map(r => `
     <tr class="border-b border-white/10 hover:bg-white/10 transition text-start">
-      <td class="py-4 px-4">${r.name || r.jobTitle || "-"}</td>
-      <td class="py-4 px-4 text-center">${r.count ?? 0}</td>
-     
+      <td class="py-3 px-3 sm:px-4 break-words">
+        ${r.name || r.jobTitle || "-"}
+      </td>
+      <td class="py-3 px-3 sm:px-4 text-center font-medium">
+        ${r.count ?? 0}
+      </td>
     </tr>
   `).join("");
-
-  if (data.length === 0) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="4" class="py-6 text-center text-white/60">
-          No Jobseekers found
-        </td>
-      </tr>`;
-  }
 }
-
 function renderJobPosts(data) {
   
-  if (!Array.isArray(data)) {
+  if (!Array.isArray(data) || data.length === 0) {
     tbody2.innerHTML = `
-      <tr>
-        <td colspan="4" class="py-6 text-center text-white/60">
-          No data available
+          <tr>
+        <td colspan="3" class="py-6 text-center text-white/60">
+          No JobPosts found
         </td>
       </tr>`;
     return;
@@ -453,14 +453,6 @@ function renderJobPosts(data) {
     </tr>
   `).join("");
 
-  if (data.length === 0) {
-    tbody2.innerHTML = `
-      <tr>
-        <td colspan="4" class="py-6 text-center text-white/60">
-          No JobPosts found
-        </td>
-      </tr>`;
-  }
 }
 
 // ===================== EVENTS =====================
