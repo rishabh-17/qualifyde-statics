@@ -88,10 +88,47 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,0.25) transparent;
   }
+  #authOverlay{
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.95);}
+  to{opacity:1; transform:scale(1);}
+}
 </style>
 </head>
 
 <body class="bg-gradient-to-r from-indigo-900 via-purple-700 to-indigo-900 min-h-screen text-white px-6 py-10">
+
+<div id="authOverlay" class="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-md z-[9999]">
+
+  <div class="glass-card w-[400px] p-8 text-center text-white">
+
+    <h2 class="text-2xl font-semibold mb-6 tracking-wide">
+      Password
+    </h2>
+
+    <input
+      type="text"
+      id="passwordInput"
+      placeholder="Enter password"
+      class="w-full px-3 py-2 rounded-md bg-white/10 border border-white/30 
+             text-white placeholder-white/60 outline-none focus:ring-2 focus:ring-yellow-300 mb-4"
+    />
+
+    <button
+      onclick="verifyPassword()"
+      class="w-full py-2 rounded-md bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition"
+    >
+      Unlock
+    </button>
+
+    <p id="errorMessage" class="text-red-300 text-sm mt-3"></p>
+
+  </div>
+
+</div>
 
 <div class="container mx-auto max-w-7xl text-center">
 
@@ -493,6 +530,26 @@ loadJobPosts();
 
 fetchData();
 setInterval(fetchData, 60000);
+
+const PASSWORD = "QualKreeya@2026";
+const overlay = document.getElementById("authOverlay");
+const input = document.getElementById("passwordInput");
+const error = document.getElementById("errorMessage");
+
+function verifyPassword(){
+  if(input.value === PASSWORD){
+    overlay.style.display = "none";
+  } else {
+    error.innerText = "Incorrect password";
+  }
+}
+
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter") verifyPassword();
+});
+
+input.focus();
+
 
 </script>
 
